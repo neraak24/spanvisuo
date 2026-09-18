@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Janelas Digitais</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(180deg, #cfe0f0 0%, #eef3f8 55%, #f4f2ee 100%);
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  overflow-y: auto;
+}
+h1 { font-size: 20px; color: #333; margin-bottom: 4px; }
+
+/* ---------- Página inicial ---------- */
+#landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  width: 100%;
+  text-align: center;
+  background: linear-gradient(160deg, #ffe27a 0%, #ffb6d9 45%, #a3d9ff 100%);
+  border-radius: 28px;
+  padding: 30px 20px;
+  position: relative;
+  overflow: hidden;
+}
+#landing::before,
+#landing::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+}
+#landing::before { width: 140px; height: 140px; top: -50px; left: -40px; }
+#landing::after { width: 100px; height: 100px; bottom: -30px; right: -20px; }
+
+.window-icon {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 18px;
+  border: 5px solid #ff8fb3;
+  border-radius: 20px;
+  position: relative;
+  background: linear-gradient(135deg, #fff4b8 0%, #ffd3e6 50%, #bfe6ff 100%);
+  box-shadow: 0 8px 0 rgba(255, 143, 179, 0.35);
+  animation: bounce 2.2s ease-in-out infinite;
+}
+.window-icon::before,
+.window-icon::after {
+  content: "";
+  position: absolute;
+  background: #ff8fb3;
+  border-radius: 3px;
+}
+.window-icon::before { left: 50%; top: 8px; bottom: 8px; width: 6px; transform: translateX(-50%); }
+.window-icon::after { top: 50%; left: 8px; right: 8px; height: 6px; transform: translateY(-50%); }
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+#landing h1 {
+  font-family: 'Trebuchet MS', Verdana, sans-serif;
+  font-size: 40px;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #ff8fb3, -1px -1px 0 #ff8fb3, 1px -1px 0 #ff8fb3, -1px 1px 0 #ff8fb3;
+  margin-bottom: 10px;
+}
+#landing p {
+  font-family: 'Trebuchet MS', Verdana, sans-serif;
+  font-size: 17px;
+  color: #5a4a6b;
+  margin-bottom: 26px;
+  max-width: 360px;
+}
+#landingStartBtn {
+  font-family: 'Trebuchet MS', Verdana, sans-serif;
+  font-size: 19px;
+  font-weight: bold;
+  padding: 14px 48px;
+  background: #ff8fb3;
+  border-radius: 50px;
+  box-shadow: 0 6px 0 #e06e94;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+#landingStartBtn:hover { background: #ff7aa5; }
+#landingStartBtn:active { transform: translateY(4px); box-shadow: 0 2px 0 #e06e94; }
+
+/* Botão discreto de encerrar/avançar — só aparece a partir da 2ª tarefa de cada parte */
+#exitBtn {
+  position: fixed;
+  top: 14px;
+  right: 16px;
+  font-size: 11px;
+  padding: 5px 10px;
+  background: rgba(120, 120, 120, 0.25);
+  color: #666;
+  border-radius: 5px;
+  z-index: 10;
+  display: none;
+  opacity: 0.6;
+}
+#exitBtn:hover { background: rgba(120, 120, 120, 0.45); opacity: 1; }
+
+#testArea {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+#status {
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: #444;
+  text-align: center;
+  max-width: 520px;
+}
+#answerReveal {
+  display: none;
+  font-size: 17px;
+  font-weight: bold;
+  color: #2e7d3d;
+  margin-bottom: 8px;
+}
+
+#board {
+  position: relative;
+  width: min(92vw, 1100px);
+  height: min(60vh, 640px);
+  background: #fdfcfa;
+  border: 1px solid #999;
+  border-radius: 4px;
+}
+.square {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  background: #fdfcfa;
+  border: 3px solid #222;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+.square.lit { background-color: #000; border-color: #000; }
+.square.correct { background-color: #000; border-color: #000; }
+.square.wrong { background-color: #000; border-color: #000; }
+.square.disabled { cursor: default; }
+
+#controls { margin-top: 20px; }
+button {
+  font-size: 15px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  background: #333;
+  color: white;
+  cursor: pointer;
+}
+button:disabled { background: #aaa; cursor: default; }
+
+#results {
+  margin-top: 24px;
+  font-size: 15px;
+  color: #333;
+  white-space: pre-line;
+  text-align: left;
+  background: white;
+  padding: 16px 20px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  display: none;
+  max-width: 520px;
+}
+</style>
+</head>
+<body>
+
+<button id="exitBtn">encerrar</button>
+
+<div id="landing">
+  <div class="window-icon"></div>
+  <h1>Span Visuoespacial</h1>
+  <p>Observe atentamente e responda quando for sua vez.</p>
+  <button id="landingStartBtn">Iniciar</button>
+</div>
+
+<div id="testArea">
+  <div id="status">Clique em "Iniciar" para ver o tutorial.</div>
+  <div id="answerReveal"></div>
+  <div id="board"></div>
+  <div id="controls">
+    <button id="startBtn">Iniciar</button>
+    <button id="finishBtn" style="display:none;">Concluir sequência</button>
+  </div>
+  <div id="results"></div>
+</div>
+
+<script>
+document.getElementById('landingStartBtn').addEventListener('click', () => {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('testArea').style.display = 'flex';
+});
+</script>
+
+<script>
+// Posições dos 10 quadrados (em % do tamanho do board), baseadas no tabuleiro físico das fotos.
+// id = número interno do quadrado (mesmo número que está no cubo físico correspondente)
+const SQUARES = [
+  { id: 1,  xPct: 15, yPct: 22 },
+  { id: 2,  xPct: 34, yPct: 36 },
+  { id: 3,  xPct: 24, yPct: 58 },
+  { id: 4,  xPct: 8,  yPct: 82 },
+  { id: 5,  xPct: 30, yPct: 88 },
+  { id: 6,  xPct: 54, yPct: 18 },
+  { id: 7,  xPct: 70, yPct: 28 },
+  { id: 8,  xPct: 60, yPct: 50 },
+  { id: 9,  xPct: 65, yPct: 74 },
+  { id: 10, xPct: 84, yPct: 84 },
+];
+
+/* ===================== PARTE 1 — ORDEM DIRETA ===================== */
+const EXAMPLE_SEQUENCE_1 = [10, 1];
+const TRAINING_SEQUENCES_1 = [
+  [1, 6],
+  [5, 8],
+];
+const TASK_SEQUENCES_1 = [
+  [3, 10],
+  [7, 4],
+  [1, 9, 3],
+  [8, 2, 7],
+  [4, 9, 1, 6],
+  [10, 6, 2, 7],
+  [6, 5, 1, 4, 8],
+  [5, 7, 9, 8, 2],
+  [4, 1, 9, 3, 8, 10],
+  [9, 2, 6, 7, 3, 5],
+  [10, 1, 6, 4, 8, 5, 7],
+  [2, 6, 3, 8, 2, 10, 1],
+  [7, 3, 10, 5, 7, 8, 4, 9],
+  [6, 9, 3, 2, 1, 7, 10, 5],
+  [5, 8, 4, 10, 7, 3, 1, 9, 6],
+  [8, 2, 6, 1, 10, 3, 7, 4, 9],
+];
+
+/* ===================== PARTE 2 — ORDEM INVERSA ===================== */
+// Os quadrados acendem nesta ordem, mas a resposta correta é a sequência invertida.
+const EXAMPLE_SEQUENCE_2 = [10, 1];
+const TRAINING_SEQUENCES_2 = [
+  [5, 8],
+  [1, 6],
+];
+const TASK_SEQUENCES_2 = [
+  [7, 4],
+  [3, 10],
+  [8, 2, 7],
+  [1, 9, 3],
+  [10, 6, 2, 7],
+  [4, 9, 1, 6],
+  [5, 7, 9, 8, 2],
+  [6, 5, 1, 4, 8],
+  [9, 2, 6, 7, 3, 5],
+  [4, 1, 9, 3, 8, 10],
+  [2, 6, 3, 8, 2, 10, 1],
+  [10, 1, 6, 4, 8, 5, 7],
+  [6, 9, 3, 2, 1, 7, 10, 5],
+  [7, 3, 10, 5, 7, 8, 4, 9],
+  [8, 2, 6, 1, 10, 3, 7, 4, 9],
+  [5, 8, 4, 10, 7, 3, 1, 9, 6],
+];
+
+const FLASH_ON_MS = 700;   // duração de cada quadrado aceso
+const FLASH_GAP_MS = 300;  // pausa entre os quadrados da sequência
+const REVEAL_ON_MS = 500;  // duração do "replay" de cada quadrado ao revelar a resposta do tutorial
+const REVEAL_GAP_MS = 150;
+const TUTORIAL_FLASH_ON_MS = 1100;  // tutorial é mais devagar, já que a explicação é falada
+const TUTORIAL_FLASH_GAP_MS = 500;
+const TUTORIAL_REVEAL_ON_MS = 800;
+const TUTORIAL_REVEAL_GAP_MS = 300;
+
+function buildPhaseRounds(phase, direction, exampleSeq, trainingSeqs, taskSeqs) {
+  return [
+    { phase, direction, type: 'tutorial', idx: 0, total: 1, seq: exampleSeq },
+    ...trainingSeqs.map((seq, i) => ({ phase, direction, type: 'treino', idx: i, total: trainingSeqs.length, seq })),
+    ...taskSeqs.map((seq, i) => ({ phase, direction, type: 'tarefa', idx: i, total: taskSeqs.length, seq })),
+  ];
+}
+
+const ROUNDS = [
+  ...buildPhaseRounds(1, 'forward', EXAMPLE_SEQUENCE_1, TRAINING_SEQUENCES_1, TASK_SEQUENCES_1),
+  ...buildPhaseRounds(2, 'backward', EXAMPLE_SEQUENCE_2, TRAINING_SEQUENCES_2, TASK_SEQUENCES_2),
+];
+const PHASE2_START_INDEX = ROUNDS.findIndex(r => r.phase === 2);
+
+// ------------------------------------------------
+const board = document.getElementById('board');
+const statusEl = document.getElementById('status');
+const answerRevealEl = document.getElementById('answerReveal');
+const startBtn = document.getElementById('startBtn');
+const finishBtn = document.getElementById('finishBtn');
+const exitBtn = document.getElementById('exitBtn');
+const resultsEl = document.getElementById('results');
+
+let roundPointer = 0;
+let currentSequence = [];
+let expectedSequence = []; // igual à sequência mostrada (direta) ou invertida (inversa)
+let userInput = [];
+let acceptingClicks = false;
+let startBtnMode = 'start'; // 'start' = iniciar/ver rodada | 'continue' = avançar após revelar resposta do tutorial
+let results = []; // apenas treinos e tarefas: { phase, direction, type, idx, length, sequence, expected, userAnswer, correct }
+let sessionClicks = []; // rastreio bruto de cada clique, na ordem em que aconteceu, para toda a sessão
+
+// ---- Preparação para integração futura com o hub central ----
+// Nos outros testes (cubos/adf/ao), a entrada real acontece via link com token (?token=...)
+// gerado pelo hub, em vez do TOTP. Aqui já deixamos o token disponível, mesmo sem uso ainda,
+// para quando este teste for conectado ao hub do mesmo jeito.
+const urlParams = new URLSearchParams(window.location.search);
+const hubToken = urlParams.get('token'); // ainda não usado — placeholder
+
+// cria os elementos dos quadrados
+const squareEls = {};
+SQUARES.forEach(sq => {
+  const el = document.createElement('div');
+  el.className = 'square';
+  el.style.left = `calc(${sq.xPct}% - 36px)`;
+  el.style.top = `calc(${sq.yPct}% - 36px)`;
+  el.dataset.id = sq.id;
+  el.addEventListener('click', () => handleClick(sq.id, el));
+  board.appendChild(el);
+  squareEls[sq.id] = el;
+});
+
+function sleep(ms) {
+  return new Promise(res => setTimeout(res, ms));
+}
+
+function directionLabel(direction) {
+  return direction === 'backward' ? 'ordem inversa' : 'ordem direta';
+}
+
+function labelFor(round) {
+  if (round.type === 'tutorial') return `Tutorial (${directionLabel(round.direction)})`;
+  if (round.type === 'treino') return `Treino ${round.idx + 1} de ${round.total} (${directionLabel(round.direction)})`;
+  return null; // tarefas não exibem número nem contagem
+}
+
+function clearSquareStates() {
+  Object.values(squareEls).forEach(el => el.classList.remove('lit', 'correct', 'wrong'));
+}
+
+function setupRoundIntro() {
+  const round = ROUNDS[roundPointer];
+  answerRevealEl.style.display = 'none';
+  answerRevealEl.textContent = '';
+  clearSquareStates();
+  startBtnMode = 'start';
+
+  // botão discreto: escondido por padrão, só reaparece a partir da 2ª tarefa de cada parte
+  exitBtn.style.display = 'none';
+  if (round.type === 'tarefa' && round.idx >= 1) {
+    exitBtn.style.display = 'inline-block';
+  }
+
+  if (round.type === 'tutorial') {
+    statusEl.textContent = '';
+    startBtn.textContent = 'Ver exemplo';
+  } else if (round.type === 'treino') {
+    statusEl.textContent = `Clique em "Iniciar" para começar — ${labelFor(round)}.`;
+    startBtn.textContent = `Iniciar ${labelFor(round)}`;
+  } else {
+    statusEl.textContent = '';
+    startBtn.textContent = 'Iniciar';
+  }
+  startBtn.style.display = 'inline-block';
+  startBtn.disabled = false;
+}
+
+async function playFlash(seq, onMs = FLASH_ON_MS, gapMs = FLASH_GAP_MS) {
+  acceptingClicks = false;
+  for (const id of seq) {
+    const el = squareEls[id];
+    el.classList.add('lit');
+    await sleep(onMs);
+    el.classList.remove('lit');
+    await sleep(gapMs);
+  }
+}
+
+async function revealAnswer(seq, onMs = REVEAL_ON_MS, gapMs = REVEAL_GAP_MS) {
+  for (const id of seq) {
+    const el = squareEls[id];
+    el.classList.add('lit');
+    await sleep(onMs);
+    el.classList.remove('lit');
+    el.classList.add('correct');
+    await sleep(gapMs);
+  }
+}
+
+function advanceRound() {
+  clearSquareStates();
+  answerRevealEl.style.display = 'none';
+  roundPointer++;
+  if (roundPointer < ROUNDS.length) {
+    setupRoundIntro();
+  } else {
+    showResults();
+  }
+}
+
+function jumpToPhase2() {
+  clearSquareStates();
+  answerRevealEl.style.display = 'none';
+  roundPointer = PHASE2_START_INDEX;
+  setupRoundIntro();
+}
+
+startBtn.addEventListener('click', async () => {
+  if (startBtnMode === 'continue') {
+    advanceRound();
+    return;
+  }
+
+  const round = ROUNDS[roundPointer];
+  startBtn.disabled = true;
+  startBtn.style.display = 'none';
+  currentSequence = round.seq;
+  expectedSequence = round.direction === 'backward' ? [...currentSequence].reverse() : [...currentSequence];
+
+  if (round.type === 'tutorial') {
+    statusEl.textContent = '';
+    await sleep(600);
+    await playFlash(currentSequence, TUTORIAL_FLASH_ON_MS, TUTORIAL_FLASH_GAP_MS);
+    await sleep(400);
+    await revealAnswer(expectedSequence, TUTORIAL_REVEAL_ON_MS, TUTORIAL_REVEAL_GAP_MS);
+    answerRevealEl.textContent = `Resposta: ${expectedSequence.join(' → ')}`;
+    answerRevealEl.style.display = 'block';
+    startBtnMode = 'continue';
+    startBtn.textContent = 'Continuar';
+    startBtn.style.display = 'inline-block';
+    startBtn.disabled = false;
+    return;
+  }
+
+  const introLabel = round.type === 'treino' ? labelFor(round) : '';
+  statusEl.textContent = introLabel ? `${introLabel} — observe...` : '';
+  await sleep(500);
+  await playFlash(currentSequence);
+  acceptingClicks = true;
+  userInput = [];
+  finishBtn.style.display = 'inline-block';
+  statusEl.textContent = introLabel ? `${introLabel} — sua vez` : 'Sua vez';
+});
+
+function handleClick(id, el) {
+  if (!acceptingClicks) return;
+  const round = ROUNDS[roundPointer];
+  const clickOrder = userInput.length; // posição (0-based) antes de adicionar
+  userInput.push(id);
+  const isCorrectSoFar = clickOrder < expectedSequence.length && expectedSequence[clickOrder] === id;
+
+  // rastreio bruto do clique — fica disponível para exportar/enviar ao hub mais tarde
+  sessionClicks.push({
+    phase: round.phase,
+    direction: round.direction,
+    type: round.type,
+    roundIdx: round.idx,
+    clickOrder: clickOrder + 1,
+    squareId: id,
+    correctAtThisPosition: isCorrectSoFar,
+    timestamp: Date.now()
+  });
+
+  el.classList.add(isCorrectSoFar ? 'correct' : 'wrong');
+  setTimeout(() => el.classList.remove('correct', 'wrong'), 300);
+}
+
+function computeCorrect() {
+  return (
+    userInput.length === expectedSequence.length &&
+    userInput.every((v, i) => v === expectedSequence[i])
+  );
+}
+
+finishBtn.addEventListener('click', () => {
+  const round = ROUNDS[roundPointer];
+  acceptingClicks = false;
+  finishBtn.style.display = 'none';
+  const correct = computeCorrect();
+
+  // clique a clique desta rodada, retirado do rastreio bruto — útil para o hub analisar depois
+  const clicksThisRound = sessionClicks.filter(c =>
+    c.phase === round.phase && c.type === round.type && c.roundIdx === round.idx
+  );
+
+  results.push({
+    phase: round.phase,
+    direction: round.direction,
+    type: round.type,
+    idx: round.idx,
+    length: currentSequence.length,
+    sequence: [...currentSequence],
+    expected: [...expectedSequence],
+    userAnswer: [...userInput],
+    clicks: clicksThisRound,
+    correct
+  });
+
+  statusEl.textContent = correct ? '✅ Correto!' : '❌ Incorreto.';
+  setTimeout(() => {
+    advanceRound();
+  }, 900);
+});
+
+exitBtn.addEventListener('click', () => {
+  acceptingClicks = false;
+  const round = ROUNDS[roundPointer];
+  if (round.phase === 1) {
+    jumpToPhase2();
+  } else {
+    showResults();
+  }
+});
+
+function summarizePhase(title, phaseResults) {
+  let text = `${title}\n\n`;
+  let totalCorrect = 0;
+  phaseResults.forEach(r => {
+    text += `Tarefa ${r.idx + 1} (tamanho ${r.length}): ${r.correct ? 'Correta' : 'Incorreta'}\n`;
+    text += `  Mostrado: ${r.sequence.join(' - ')}\n`;
+    text += `  Esperado: ${r.expected.join(' - ')}\n`;
+    text += `  Respondido: ${r.userAnswer.join(' - ')}\n\n`;
+    if (r.correct) totalCorrect++;
+  });
+  text += `Total: ${totalCorrect} de ${phaseResults.length} tarefas corretas.\n`;
+  return text;
+}
+
+// Monta o pacote de dados da sessão inteira (treinos + tarefas + cada clique bruto).
+// Formato pensado para já poder ser enviado ao hub futuramente, sem precisar reestruturar nada.
+function buildSessionData() {
+  return {
+    test: 'janelas-digitais',
+    token: hubToken, // será usado para identificar o perfil/sessão quando conectado ao hub
+    finishedAt: new Date().toISOString(),
+    results, // todas as rodadas de treino e tarefa, com sequência, esperado, resposta e cliques
+    rawClicks: sessionClicks // todos os cliques da sessão inteira, em ordem, com timestamp
+  };
+}
+
+// Placeholder para quando este teste for conectado ao hub (mesmo padrão do cubos/adf/ao):
+// aqui entraria a chamada para salvar sessionData no Supabase e invalidar o token.
+function saveSessionToHub(sessionData) {
+  if (!hubToken) return; // rodando fora do hub (sem token) — nada a enviar ainda
+  console.log('[hub] sessão pronta para ser salva:', sessionData);
+  // TODO: substituir por uma chamada real ao Supabase do hub quando este teste for integrado.
+}
+
+function showResults() {
+  statusEl.textContent = 'Teste concluído!';
+  answerRevealEl.style.display = 'none';
+  startBtn.style.display = 'none';
+  finishBtn.style.display = 'none';
+  exitBtn.style.display = 'none';
+
+  const phase1Tasks = results.filter(r => r.phase === 1 && r.type === 'tarefa');
+  const phase2Tasks = results.filter(r => r.phase === 2 && r.type === 'tarefa');
+
+  let text = summarizePhase('Resumo — Parte 1 (ordem direta)', phase1Tasks);
+  text += '\n----------------------------------------\n\n';
+  text += summarizePhase('Resumo — Parte 2 (ordem inversa)', phase2Tasks);
+
+  resultsEl.textContent = text;
+  resultsEl.style.display = 'block';
+
+  saveSessionToHub(buildSessionData());
+}
+
+// Primeira rodada (tutorial da Parte 1)
+setupRoundIntro();
+</script>
+
+</body>
+</html>
