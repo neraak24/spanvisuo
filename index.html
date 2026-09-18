@@ -191,7 +191,6 @@ button:disabled { background: #aaa; cursor: default; }
 <div id="landing">
   <div class="window-icon"></div>
   <h1>Span Visuoespacial</h1>
-  <p>Observe atentamente e responda quando for sua vez.</p>
   <button id="landingStartBtn">Iniciar</button>
 </div>
 
@@ -517,7 +516,7 @@ finishBtn.addEventListener('click', () => {
     correct
   });
 
-  statusEl.textContent = correct ? '✅ Correto!' : '❌ Incorreto.';
+  statusEl.textContent = '';
   setTimeout(() => {
     advanceRound();
   }, 900);
