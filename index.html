@@ -616,11 +616,10 @@ function buildSessionData() {
 // A pontuação detalhada (sessionData) ainda não é enviada/guardada no hub — só a marcação de concluído.
 function saveSessionToHub(sessionData) {
   if (!hubToken) return; // rodando fora do hub (sem token) — nada a fazer
-  console.log('[hub] sessão concluída:', sessionData);
   fetch(SUPABASE_URL + "/functions/v1/concluir-sessao", {
     method: "POST",
     headers: { "Content-Type": "application/json", "apikey": SUPABASE_KEY },
-    body: JSON.stringify({ token: hubToken })
+    body: JSON.stringify({ token: hubToken, dados: sessionData })
   }).catch(() => {});
 }
 
