@@ -2,186 +2,208 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Span Visuoespacial</title>
+<title>Janelas Digitais</title>
 <style>
-* { box-sizing: border-box; }
-body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: linear-gradient(180deg, #cfe0f0 0%, #eef3f8 55%, #f4f2ee 100%);
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-  overflow-y: auto;
-}
-h1 { font-size: 20px; color: #333; margin-bottom: 4px; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(180deg, #cfe0f0 0%, #eef3f8 55%, #f4f2ee 100%);
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    overflow-y: auto;
+  }
+  h1 { font-size: 20px; color: #333; margin-bottom: 4px; }
 
-/* ---------- Página inicial ---------- */
-#landing {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 80vh;
-  width: 100%;
-  text-align: center;
-  background: linear-gradient(160deg, #ffe27a 0%, #ffb6d9 45%, #a3d9ff 100%);
-  border-radius: 28px;
-  padding: 30px 20px;
-  position: relative;
-  overflow: hidden;
-}
-#landing::before,
-#landing::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-}
-#landing::before { width: 140px; height: 140px; top: -50px; left: -40px; }
-#landing::after { width: 100px; height: 100px; bottom: -30px; right: -20px; }
+  /* ---------- Página inicial ---------- */
+  #landing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    width: 100%;
+    text-align: center;
+    background: linear-gradient(160deg, #ffe27a 0%, #ffb6d9 45%, #a3d9ff 100%);
+    border-radius: 28px;
+    padding: 30px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  #landing::before,
+  #landing::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+  }
+  #landing::before {
+    width: 140px;
+    height: 140px;
+    top: -50px;
+    left: -40px;
+  }
+  #landing::after {
+    width: 100px;
+    height: 100px;
+    bottom: -30px;
+    right: -20px;
+  }
+  .window-icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 18px;
+    border: 5px solid #ff8fb3;
+    border-radius: 20px;
+    position: relative;
+    background: linear-gradient(135deg, #fff4b8 0%, #ffd3e6 50%, #bfe6ff 100%);
+    box-shadow: 0 8px 0 rgba(255, 143, 179, 0.35);
+    animation: bounce 2.2s ease-in-out infinite;
+  }
+  .window-icon::before,
+  .window-icon::after {
+    content: "";
+    position: absolute;
+    background: #ff8fb3;
+    border-radius: 3px;
+  }
+  .window-icon::before {
+    left: 50%;
+    top: 8px;
+    bottom: 8px;
+    width: 6px;
+    transform: translateX(-50%);
+  }
+  .window-icon::after {
+    top: 50%;
+    left: 8px;
+    right: 8px;
+    height: 6px;
+    transform: translateY(-50%);
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-12px) rotate(2deg); }
+  }
+  #landing h1 {
+    font-family: 'Trebuchet MS', Verdana, sans-serif;
+    font-size: 40px;
+    letter-spacing: 1px;
+    color: #ffffff;
+    text-shadow: 2px 2px 0 #ff8fb3, -1px -1px 0 #ff8fb3, 1px -1px 0 #ff8fb3, -1px 1px 0 #ff8fb3;
+    margin-bottom: 10px;
+  }
+  #landing p {
+    font-family: 'Trebuchet MS', Verdana, sans-serif;
+    font-size: 17px;
+    color: #5a4a6b;
+    margin-bottom: 26px;
+    max-width: 360px;
+  }
+  #landingStartBtn {
+    font-family: 'Trebuchet MS', Verdana, sans-serif;
+    font-size: 19px;
+    font-weight: bold;
+    padding: 14px 48px;
+    background: #ff8fb3;
+    border-radius: 50px;
+    box-shadow: 0 6px 0 #e06e94;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+  #landingStartBtn:hover { background: #ff7aa5; }
+  #landingStartBtn:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #e06e94;
+  }
 
-.window-icon {
-  width: 100px;
-  height: 100px;
-  margin-bottom: 18px;
-  border: 5px solid #ff8fb3;
-  border-radius: 20px;
-  position: relative;
-  background: linear-gradient(135deg, #fff4b8 0%, #ffd3e6 50%, #bfe6ff 100%);
-  box-shadow: 0 8px 0 rgba(255, 143, 179, 0.35);
-  animation: bounce 2.2s ease-in-out infinite;
-}
-.window-icon::before,
-.window-icon::after {
-  content: "";
-  position: absolute;
-  background: #ff8fb3;
-  border-radius: 3px;
-}
-.window-icon::before { left: 50%; top: 8px; bottom: 8px; width: 6px; transform: translateX(-50%); }
-.window-icon::after { top: 50%; left: 8px; right: 8px; height: 6px; transform: translateY(-50%); }
-@keyframes bounce {
-  0%, 100% { transform: translateY(0) rotate(-2deg); }
-  50% { transform: translateY(-12px) rotate(2deg); }
-}
-
-#landing h1 {
-  font-family: 'Trebuchet MS', Verdana, sans-serif;
-  font-size: 40px;
-  letter-spacing: 1px;
-  color: #ffffff;
-  text-shadow: 2px 2px 0 #ff8fb3, -1px -1px 0 #ff8fb3, 1px -1px 0 #ff8fb3, -1px 1px 0 #ff8fb3;
-  margin-bottom: 10px;
-}
-#landing p {
-  font-family: 'Trebuchet MS', Verdana, sans-serif;
-  font-size: 17px;
-  color: #5a4a6b;
-  margin-bottom: 26px;
-  max-width: 360px;
-}
-#landingStartBtn {
-  font-family: 'Trebuchet MS', Verdana, sans-serif;
-  font-size: 19px;
-  font-weight: bold;
-  padding: 14px 48px;
-  background: #ff8fb3;
-  border-radius: 50px;
-  box-shadow: 0 6px 0 #e06e94;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
-}
-#landingStartBtn:hover { background: #ff7aa5; }
-#landingStartBtn:active { transform: translateY(4px); box-shadow: 0 2px 0 #e06e94; }
-
-/* Botão discreto de encerrar/avançar — só aparece a partir da 2ª tarefa de cada parte */
-#exitBtn {
-  position: fixed;
-  top: 14px;
-  right: 16px;
-  font-size: 11px;
-  padding: 5px 10px;
-  background: rgba(120, 120, 120, 0.25);
-  color: #666;
-  border-radius: 5px;
-  z-index: 10;
-  display: none;
-  opacity: 0.6;
-}
-#exitBtn:hover { background: rgba(120, 120, 120, 0.45); opacity: 1; }
-
-#testArea {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-#status {
-  margin-bottom: 8px;
-  font-size: 15px;
-  color: #444;
-  text-align: center;
-  max-width: 520px;
-}
-#answerReveal {
-  display: none;
-  font-size: 17px;
-  font-weight: bold;
-  color: #2e7d3d;
-  margin-bottom: 8px;
-}
-
-#board {
-  position: relative;
-  width: min(92vw, 1100px);
-  height: min(60vh, 640px);
-  background: #fdfcfa;
-  border: 1px solid #999;
-  border-radius: 4px;
-}
-.square {
-  position: absolute;
-  width: 72px;
-  height: 72px;
-  background: #fdfcfa;
-  border: 3px solid #222;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.1s ease;
-}
-.square.lit { background-color: #000; border-color: #000; }
-.square.correct { background-color: #000; border-color: #000; }
-.square.wrong { background-color: #000; border-color: #000; }
-.square.disabled { cursor: default; }
-
-#controls { margin-top: 20px; }
-button {
-  font-size: 15px;
-  padding: 10px 22px;
-  border: none;
-  border-radius: 6px;
-  background: #333;
-  color: white;
-  cursor: pointer;
-}
-button:disabled { background: #aaa; cursor: default; }
-
-#results {
-  margin-top: 24px;
-  font-size: 15px;
-  color: #333;
-  white-space: pre-line;
-  text-align: left;
-  background: white;
-  padding: 16px 20px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  display: none;
-  max-width: 520px;
-}
+  #exitBtn {
+    position: fixed;
+    top: 14px;
+    right: 16px;
+    font-size: 12px;
+    padding: 6px 12px;
+    background: rgba(120, 120, 120, 0.35);
+    color: #444;
+    border-radius: 5px;
+    z-index: 10;
+    display: none;
+  }
+  #exitBtn:hover {
+    background: rgba(120, 120, 120, 0.55);
+  }
+  #testArea {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  #status {
+    display: none;
+  }
+  #board {
+    position: relative;
+    width: min(92vw, 1100px);
+    height: min(64vh, 680px);
+    background: #fdfcfa;
+    border: 1px solid #999;
+    border-radius: 4px;
+  }
+  .square {
+    position: absolute;
+    width: 72px;
+    height: 72px;
+    background: #fdfcfa;
+    border: 3px solid #222;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+  }
+  .square.lit {
+    background-color: #4a90d9;
+    border-color: #2a5f9e;
+  }
+  .square.correct {
+    background-color: #333;
+    border-color: #000;
+  }
+  .square.wrong {
+    background-color: #333;
+    border-color: #000;
+  }
+  .square.disabled {
+    cursor: default;
+  }
+  #controls { margin-top: 20px; }
+  button {
+    font-size: 15px;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 6px;
+    background: #333;
+    color: white;
+    cursor: pointer;
+  }
+  button:disabled {
+    background: #aaa;
+    cursor: default;
+  }
+  #results {
+    margin-top: 24px;
+    font-size: 15px;
+    color: #333;
+    white-space: pre-line;
+    text-align: left;
+    background: white;
+    padding: 16px 20px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    display: none;
+    max-width: 500px;
+  }
 </style>
 </head>
 <body>
@@ -199,7 +221,7 @@ button:disabled { background: #aaa; cursor: default; }
 <script>
 const SUPABASE_URL = "https://bjzmlvsskhfrkvblvsjj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_YEHAM35S4jsY_dKoN5mwzg_YOVoVWJR";
-const SITE = "spanvisuo";
+const SITE = "jdneup";
 let hubToken = null;
 let hubSessaoId = null;
 
@@ -246,18 +268,17 @@ async function hubValidarToken(token) {
 })();
 </script>
 
-<button id="exitBtn">encerrar</button>
+<button id="exitBtn">Finalizar agora</button>
 
 <div id="landing" style="display:none;">
   <div class="window-icon"></div>
-  <h1>Span Visuoespacial</h1>
+  <h1>Janelas Digitais</h1>
   <p>Observe atentamente e responda quando for sua vez.</p>
   <button id="landingStartBtn">Iniciar</button>
 </div>
 
 <div id="testArea">
-  <div id="status">Clique em "Iniciar" para ver o tutorial.</div>
-  <div id="answerReveal"></div>
+  <div id="status">Clique em "Iniciar" para começar a Sequência 1 de 8.</div>
   <div id="board"></div>
   <div id="controls">
     <button id="startBtn">Iniciar</button>
@@ -270,116 +291,54 @@ async function hubValidarToken(token) {
 document.getElementById('landingStartBtn').addEventListener('click', () => {
   document.getElementById('landing').style.display = 'none';
   document.getElementById('testArea').style.display = 'flex';
+  document.getElementById('exitBtn').style.display = 'inline-block';
 });
 </script>
 
 <script>
-// Posições dos 10 quadrados (em % do tamanho do board), baseadas no tabuleiro físico das fotos.
-// id = número interno do quadrado (mesmo número que está no cubo físico correspondente)
+
+// Posições dos 8 quadrados (em % do tamanho do board), baseadas no layout desenhado.
+// id = número interno do quadrado (não aparece na tela)
 const SQUARES = [
-  { id: 1,  xPct: 15, yPct: 22 },
-  { id: 2,  xPct: 34, yPct: 36 },
-  { id: 3,  xPct: 24, yPct: 58 },
-  { id: 4,  xPct: 8,  yPct: 82 },
-  { id: 5,  xPct: 30, yPct: 88 },
-  { id: 6,  xPct: 54, yPct: 18 },
-  { id: 7,  xPct: 70, yPct: 28 },
-  { id: 8,  xPct: 60, yPct: 50 },
-  { id: 9,  xPct: 56, yPct: 74 },
-  { id: 10, xPct: 74, yPct: 84 },
+  { id: 1, xPct: 33, yPct: 25 },
+  { id: 2, xPct: 60, yPct: 14 },
+  { id: 3, xPct: 80, yPct: 34 },
+  { id: 4, xPct: 43, yPct: 47 },
+  { id: 5, xPct: 71, yPct: 55 },
+  { id: 6, xPct: 24, yPct: 71 },
+  { id: 7, xPct: 52, yPct: 71 },
+  { id: 8, xPct: 87, yPct: 80 },
 ];
 
-/* ===================== PARTE 1 — ORDEM DIRETA ===================== */
-const EXAMPLE_SEQUENCE_1 = [10, 1];
-const TRAINING_SEQUENCES_1 = [
-  [1, 6],
-  [5, 8],
-];
-const TASK_SEQUENCES_1 = [
-  [3, 10],
-  [7, 4],
-  [1, 9, 3],
-  [8, 2, 7],
-  [4, 9, 1, 6],
-  [10, 6, 2, 7],
-  [6, 5, 1, 4, 8],
-  [5, 7, 9, 8, 2],
-  [4, 1, 9, 3, 8, 10],
-  [9, 2, 6, 7, 3, 5],
-  [10, 1, 6, 4, 8, 5, 7],
-  [2, 6, 3, 8, 2, 10, 1],
-  [7, 3, 10, 5, 7, 8, 4, 9],
-  [6, 9, 3, 2, 1, 7, 10, 5],
-  [5, 8, 4, 10, 7, 3, 1, 9, 6],
-  [8, 2, 6, 1, 10, 3, 7, 4, 9],
-];
-
-/* ===================== PARTE 2 — ORDEM INVERSA ===================== */
-// Os quadrados acendem nesta ordem, mas a resposta correta é a sequência invertida.
-const EXAMPLE_SEQUENCE_2 = [10, 1];
-const TRAINING_SEQUENCES_2 = [
-  [5, 8],
-  [1, 6],
-];
-const TASK_SEQUENCES_2 = [
-  [7, 4],
-  [3, 10],
-  [8, 2, 7],
-  [1, 9, 3],
-  [10, 6, 2, 7],
-  [4, 9, 1, 6],
-  [5, 7, 9, 8, 2],
-  [6, 5, 1, 4, 8],
-  [9, 2, 6, 7, 3, 5],
-  [4, 1, 9, 3, 8, 10],
-  [2, 6, 3, 8, 2, 10, 1],
-  [10, 1, 6, 4, 8, 5, 7],
-  [6, 9, 3, 2, 1, 7, 10, 5],
-  [7, 3, 10, 5, 7, 8, 4, 9],
-  [8, 2, 6, 1, 10, 3, 7, 4, 9],
-  [5, 8, 4, 10, 7, 3, 1, 9, 6],
+// Sequência fixa de cada uma das 8 rodadas (números correspondem ao id do quadrado).
+const SEQUENCES = [
+  [8, 1],
+  [6, 3],
+  [5, 6, 7],
+  [4, 3, 8],
+  [1, 8, 7, 6],
+  [3, 5, 1, 2],
+  [3, 4, 5, 2, 6],
+  [7, 1, 8, 6, 2],
 ];
 
 const FLASH_ON_MS = 700;   // duração de cada quadrado aceso
 const FLASH_GAP_MS = 300;  // pausa entre os quadrados da sequência
-const REVEAL_ON_MS = 500;  // duração do "replay" de cada quadrado ao revelar a resposta do tutorial
-const REVEAL_GAP_MS = 150;
-const TUTORIAL_FLASH_ON_MS = 1100;  // tutorial é mais devagar, já que a explicação é falada
-const TUTORIAL_FLASH_GAP_MS = 500;
-const TUTORIAL_REVEAL_ON_MS = 800;
-const TUTORIAL_REVEAL_GAP_MS = 300;
-
-function buildPhaseRounds(phase, direction, exampleSeq, trainingSeqs, taskSeqs) {
-  return [
-    { phase, direction, type: 'tutorial', idx: 0, total: 1, seq: exampleSeq },
-    ...trainingSeqs.map((seq, i) => ({ phase, direction, type: 'treino', idx: i, total: trainingSeqs.length, seq })),
-    ...taskSeqs.map((seq, i) => ({ phase, direction, type: 'tarefa', idx: i, total: taskSeqs.length, seq })),
-  ];
-}
-
-const ROUNDS = [
-  ...buildPhaseRounds(1, 'forward', EXAMPLE_SEQUENCE_1, TRAINING_SEQUENCES_1, TASK_SEQUENCES_1),
-  ...buildPhaseRounds(2, 'backward', EXAMPLE_SEQUENCE_2, TRAINING_SEQUENCES_2, TASK_SEQUENCES_2),
-];
-const PHASE2_START_INDEX = ROUNDS.findIndex(r => r.phase === 2);
 
 // ------------------------------------------------
+
 const board = document.getElementById('board');
 const statusEl = document.getElementById('status');
-const answerRevealEl = document.getElementById('answerReveal');
 const startBtn = document.getElementById('startBtn');
 const finishBtn = document.getElementById('finishBtn');
 const exitBtn = document.getElementById('exitBtn');
 const resultsEl = document.getElementById('results');
 
-let roundPointer = 0;
+let currentRound = 0;
 let currentSequence = [];
-let expectedSequence = []; // igual à sequência mostrada (direta) ou invertida (inversa)
 let userInput = [];
 let acceptingClicks = false;
-let startBtnMode = 'start'; // 'start' = iniciar/ver rodada | 'continue' = avançar após revelar resposta do tutorial
-let results = []; // apenas treinos e tarefas: { phase, direction, type, idx, length, sequence, expected, userAnswer, correct }
-let sessionClicks = []; // rastreio bruto de cada clique, na ordem em que aconteceu, para toda a sessão
+let results = []; // { round, length, sequence, userAnswer, correct }
 
 // cria os elementos dos quadrados
 const squareEls = {};
@@ -394,146 +353,35 @@ SQUARES.forEach(sq => {
   squareEls[sq.id] = el;
 });
 
+function generateSequence(roundIndex) {
+  return SEQUENCES[roundIndex];
+}
+
 function sleep(ms) {
   return new Promise(res => setTimeout(res, ms));
 }
 
-function directionLabel(direction) {
-  return direction === 'backward' ? 'ordem inversa' : 'ordem direta';
-}
-
-function labelFor(round) {
-  if (round.type === 'tutorial') return `Tutorial (${directionLabel(round.direction)})`;
-  if (round.type === 'treino') return `Treino ${round.idx + 1} de ${round.total} (${directionLabel(round.direction)})`;
-  return null; // tarefas não exibem número nem contagem
-}
-
-function clearSquareStates() {
-  Object.values(squareEls).forEach(el => el.classList.remove('lit', 'correct', 'wrong'));
-}
-
-function setupRoundIntro() {
-  const round = ROUNDS[roundPointer];
-  answerRevealEl.style.display = 'none';
-  answerRevealEl.textContent = '';
-  clearSquareStates();
-  startBtnMode = 'start';
-
-  // botão discreto: escondido por padrão, só reaparece a partir da 2ª tarefa de cada parte
-  exitBtn.style.display = 'none';
-  if (round.type === 'tarefa' && round.idx >= 1) {
-    exitBtn.style.display = 'inline-block';
-  }
-
-  if (round.type === 'tutorial') {
-    statusEl.textContent = '';
-    startBtn.textContent = 'Ver exemplo';
-  } else if (round.type === 'treino') {
-    statusEl.textContent = `Clique em "Iniciar" para começar — ${labelFor(round)}.`;
-    startBtn.textContent = `Iniciar ${labelFor(round)}`;
-  } else {
-    statusEl.textContent = '';
-    startBtn.textContent = 'Iniciar';
-  }
-  startBtn.style.display = 'inline-block';
-  startBtn.disabled = false;
-}
-
-async function playFlash(seq, onMs = FLASH_ON_MS, gapMs = FLASH_GAP_MS) {
+async function playSequence(seq) {
   acceptingClicks = false;
   for (const id of seq) {
     const el = squareEls[id];
     el.classList.add('lit');
-    await sleep(onMs);
+    await sleep(FLASH_ON_MS);
     el.classList.remove('lit');
-    await sleep(gapMs);
+    await sleep(FLASH_GAP_MS);
   }
-}
-
-async function revealAnswer(seq, onMs = REVEAL_ON_MS, gapMs = REVEAL_GAP_MS) {
-  for (const id of seq) {
-    const el = squareEls[id];
-    el.classList.add('lit');
-    await sleep(onMs);
-    el.classList.remove('lit');
-    el.classList.add('correct');
-    await sleep(gapMs);
-  }
-}
-
-function advanceRound() {
-  clearSquareStates();
-  answerRevealEl.style.display = 'none';
-  roundPointer++;
-  if (roundPointer < ROUNDS.length) {
-    setupRoundIntro();
-  } else {
-    showResults();
-  }
-}
-
-function jumpToPhase2() {
-  clearSquareStates();
-  answerRevealEl.style.display = 'none';
-  roundPointer = PHASE2_START_INDEX;
-  setupRoundIntro();
-}
-
-startBtn.addEventListener('click', async () => {
-  if (startBtnMode === 'continue') {
-    advanceRound();
-    return;
-  }
-
-  const round = ROUNDS[roundPointer];
-  startBtn.disabled = true;
-  startBtn.style.display = 'none';
-  currentSequence = round.seq;
-  expectedSequence = round.direction === 'backward' ? [...currentSequence].reverse() : [...currentSequence];
-
-  if (round.type === 'tutorial') {
-    statusEl.textContent = '';
-    await sleep(600);
-    await playFlash(currentSequence, TUTORIAL_FLASH_ON_MS, TUTORIAL_FLASH_GAP_MS);
-    await sleep(400);
-    await revealAnswer(expectedSequence, TUTORIAL_REVEAL_ON_MS, TUTORIAL_REVEAL_GAP_MS);
-    answerRevealEl.textContent = `Resposta: ${expectedSequence.join(' → ')}`;
-    answerRevealEl.style.display = 'block';
-    startBtnMode = 'continue';
-    startBtn.textContent = 'Continuar';
-    startBtn.style.display = 'inline-block';
-    startBtn.disabled = false;
-    return;
-  }
-
-  const introLabel = round.type === 'treino' ? labelFor(round) : '';
-  statusEl.textContent = introLabel ? `${introLabel} — observe...` : '';
-  await sleep(500);
-  await playFlash(currentSequence);
   acceptingClicks = true;
   userInput = [];
   finishBtn.style.display = 'inline-block';
-  statusEl.textContent = introLabel ? `${introLabel} — sua vez` : 'Sua vez';
-});
+  statusEl.textContent = `Sequência ${currentRound + 1} de 8 — sua vez (clique na ordem em que os quadrados acenderam)`;
+}
 
 function handleClick(id, el) {
   if (!acceptingClicks) return;
-  const round = ROUNDS[roundPointer];
-  const clickOrder = userInput.length; // posição (0-based) antes de adicionar
   userInput.push(id);
-  const isCorrectSoFar = clickOrder < expectedSequence.length && expectedSequence[clickOrder] === id;
 
-  // rastreio bruto do clique — fica disponível para exportar/enviar ao hub mais tarde
-  sessionClicks.push({
-    phase: round.phase,
-    direction: round.direction,
-    type: round.type,
-    roundIdx: round.idx,
-    clickOrder: clickOrder + 1,
-    squareId: id,
-    correctAtThisPosition: isCorrectSoFar,
-    timestamp: Date.now()
-  });
+  const idx = userInput.length - 1;
+  const isCorrectSoFar = idx < currentSequence.length && userInput[idx] === currentSequence[idx];
 
   el.classList.add(isCorrectSoFar ? 'correct' : 'wrong');
   setTimeout(() => el.classList.remove('correct', 'wrong'), 300);
@@ -541,110 +389,77 @@ function handleClick(id, el) {
 
 function computeCorrect() {
   return (
-    userInput.length === expectedSequence.length &&
-    userInput.every((v, i) => v === expectedSequence[i])
+    userInput.length === currentSequence.length &&
+    userInput.every((v, i) => v === currentSequence[i])
   );
 }
 
-finishBtn.addEventListener('click', () => {
-  const round = ROUNDS[roundPointer];
+function finishRound() {
   acceptingClicks = false;
   finishBtn.style.display = 'none';
   const correct = computeCorrect();
-
-  // clique a clique desta rodada, retirado do rastreio bruto — útil para o hub analisar depois
-  const clicksThisRound = sessionClicks.filter(c =>
-    c.phase === round.phase && c.type === round.type && c.roundIdx === round.idx
-  );
-
   results.push({
-    phase: round.phase,
-    direction: round.direction,
-    type: round.type,
-    idx: round.idx,
+    round: currentRound + 1,
     length: currentSequence.length,
     sequence: [...currentSequence],
-    expected: [...expectedSequence],
     userAnswer: [...userInput],
-    clicks: clicksThisRound,
     correct
   });
 
-  statusEl.textContent = '';
+  statusEl.textContent = correct ? '✅ Correto!' : '❌ Incorreto.';
+
   setTimeout(() => {
-    advanceRound();
+    currentRound++;
+    if (currentRound < SEQUENCES.length) {
+      startBtn.textContent = `Iniciar Sequência ${currentRound + 1}`;
+      startBtn.style.display = 'inline-block';
+      startBtn.disabled = false;
+      statusEl.textContent = `Clique em "Iniciar" para a Sequência ${currentRound + 1} de 8.`;
+    } else {
+      showResults();
+    }
   }, 900);
-});
+}
+
+finishBtn.addEventListener('click', finishRound);
 
 exitBtn.addEventListener('click', () => {
   acceptingClicks = false;
-  const round = ROUNDS[roundPointer];
-  if (round.phase === 1) {
-    jumpToPhase2();
-  } else {
-    showResults();
-  }
+  showResults();
 });
 
-function summarizePhase(title, phaseResults) {
-  let text = `${title}\n\n`;
-  let totalCorrect = 0;
-  phaseResults.forEach(r => {
-    text += `Tarefa ${r.idx + 1} (tamanho ${r.length}): ${r.correct ? 'Correta' : 'Incorreta'}\n`;
-    text += `  Mostrado: ${r.sequence.join(' - ')}\n`;
-    text += `  Esperado: ${r.expected.join(' - ')}\n`;
-    text += `  Respondido: ${r.userAnswer.join(' - ')}\n\n`;
-    if (r.correct) totalCorrect++;
-  });
-  text += `Total: ${totalCorrect} de ${phaseResults.length} tarefas corretas.\n`;
-  return text;
-}
-
-// Monta o pacote de dados da sessão inteira (treinos + tarefas + cada clique bruto).
-// Formato pensado para já poder ser enviado ao hub futuramente, sem precisar reestruturar nada.
 function buildSessionData() {
   return {
-    test: 'span-visuoespacial',
-    token: hubToken, // será usado para identificar o perfil/sessão quando conectado ao hub
+    test: 'janelas-digitais',
     finishedAt: new Date().toISOString(),
-    results, // todas as rodadas de treino e tarefa, com sequência, esperado, resposta e cliques
-    rawClicks: sessionClicks // todos os cliques da sessão inteira, em ordem, com timestamp
+    results // cada rodada: { round, length, sequence, userAnswer, correct }
   };
 }
 
-// Encerra a sessão no hub (invalida o token) ao final do teste.
-// A pontuação detalhada (sessionData) ainda não é enviada/guardada no hub — só a marcação de concluído.
-function saveSessionToHub(sessionData) {
-  if (!hubToken) return; // rodando fora do hub (sem token) — nada a fazer
-  fetch(SUPABASE_URL + "/functions/v1/concluir-sessao", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "apikey": SUPABASE_KEY },
-    body: JSON.stringify({ token: hubToken, dados: sessionData })
-  }).catch(() => {});
-}
-
 function showResults() {
-  statusEl.textContent = 'Teste concluído!';
-  answerRevealEl.style.display = 'none';
   startBtn.style.display = 'none';
   finishBtn.style.display = 'none';
   exitBtn.style.display = 'none';
 
-  const phase1Tasks = results.filter(r => r.phase === 1 && r.type === 'tarefa');
-  const phase2Tasks = results.filter(r => r.phase === 2 && r.type === 'tarefa');
+  if (hubToken) {
+    fetch(SUPABASE_URL + "/functions/v1/concluir-sessao", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "apikey": SUPABASE_KEY },
+      body: JSON.stringify({ token: hubToken, dados: buildSessionData() })
+    }).catch(() => {});
+  }
 
-  let text = summarizePhase('Resumo — Parte 1 (ordem direta)', phase1Tasks);
-  text += '\n----------------------------------------\n\n';
-  text += summarizePhase('Resumo — Parte 2 (ordem inversa)', phase2Tasks);
-
-  resultsEl.textContent = text;
-  resultsEl.style.display = 'block';
-
-  saveSessionToHub(buildSessionData());
+  document.body.innerHTML = "<div style='min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:sans-serif;font-size:1.2rem;color:#333;text-align:center;padding:20px;background:#fff;'>Teste concluído. Obrigado!</div>";
 }
 
-// Primeira rodada (tutorial da Parte 1)
-setupRoundIntro();
+startBtn.addEventListener('click', async () => {
+  startBtn.disabled = true;
+  startBtn.style.display = 'none';
+  currentSequence = generateSequence(currentRound);
+  statusEl.textContent = `Sequência ${currentRound + 1} de 8 — observe...`;
+  await sleep(600);
+  await playSequence(currentSequence);
+});
 </script>
 
 </body>
